@@ -17,8 +17,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $name=$_POST['name'];
   $phone=$_POST['phone'];
   $feedback=$_POST['feedback'];
-  $sql=" insert into feedback values('$name',$phone,'$feedback');";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "INSERT INTO feedback (name, phone, feedback) VALUES (?, ?, ?)");
+  mysqli_stmt_bind_param($stmt, "sss", $name, $phone, $feedback);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;

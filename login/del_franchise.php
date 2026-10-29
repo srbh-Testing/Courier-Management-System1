@@ -16,8 +16,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
   $bname=$_POST['bname'];
   $bphone=$_POST['bphone'];
-  $sql=" DELETE FROM FRANCHISE WHERE BNAME='$bname' AND BPHONE=$bphone;";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "DELETE FROM franchise WHERE bname = ? AND bphone = ?");
+  mysqli_stmt_bind_param($stmt, "ss", $bname, $bphone);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;

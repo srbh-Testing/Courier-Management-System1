@@ -22,8 +22,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $name=$_POST['name'];
   $phone=$_POST['phone'];
 
-  $sql="select * from place_courier where phone=$phone and date < curdate();";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "SELECT * FROM place_courier WHERE phone = ? AND date < CURDATE()");
+  mysqli_stmt_bind_param($stmt, "s", $phone);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
   if( $result)
   {
     $showalert=true;

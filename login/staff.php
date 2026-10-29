@@ -18,8 +18,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $phone=$_POST['phone'];
   $address=$_POST['address'];
   $govid=$_POST['govid'];
-  $sql="INSERT INTO `staff` (`name`, `phone`, `address`, `govid`) VALUES ( '$name', '$phone', '$address', '$govid');";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "INSERT INTO staff (name, phone, address, govid) VALUES (?, ?, ?, ?)");
+  mysqli_stmt_bind_param($stmt, "ssss", $name, $phone, $address, $govid);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;

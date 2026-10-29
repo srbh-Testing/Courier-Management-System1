@@ -19,8 +19,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $address=$_POST['address'];
   $govid=$_POST['govid'];
   $sno=$_POST['sno'];
-  $sql="UPDATE staff SET name = '$name', phone = $phone, address ='$address' ,govid='$govid' WHERE sno =$sno;";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "UPDATE staff SET name = ?, phone = ?, address = ?, govid = ? WHERE sno = ?");
+  mysqli_stmt_bind_param($stmt, "sssss", $name, $phone, $address, $govid, $sno);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;

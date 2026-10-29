@@ -54,7 +54,7 @@ This is a Courier Website which allows user to place the Courier, check the deli
         `sno` int NOT NULL AUTO_INCREMENT,
         `username` varchar(20) NOT NULL,
         `email` varchar(25) DEFAULT NULL,
-        `password` varchar(25) NOT NULL,
+        `password` varchar(255) NOT NULL,
         `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
          PRIMARY KEY (`sno`),
         UNIQUE KEY `email` (`email`)

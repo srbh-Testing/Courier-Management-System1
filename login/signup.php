@@ -13,8 +13,10 @@ include 'partials/_dbconnect.php';
     // $exists=false;
     
     //check whether this user exists
-    $existSql ="select * from users where email='$email';";
-    $result = mysqli_query($conn,$existSql);
+    $existStmt = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
+    mysqli_stmt_bind_param($existStmt, "s", $email);
+    mysqli_stmt_execute($existStmt);
+    $result = mysqli_stmt_get_result($existStmt);
     $numExistRows=mysqli_num_rows($result);
     if($numExistRows >0)
     {
@@ -26,8 +28,10 @@ include 'partials/_dbconnect.php';
         //$exists=false;
     if(($pass==$cpass))
                 {
-                    $sql="INSERT INTO `users` (`username`, `email`, `password`, `date`) VALUES ( '$username', '$email', '$pass', current_timestamp());";
-                    $result = mysqli_query($conn,$sql);
+                    $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
+                    $stmt = mysqli_prepare($conn, "INSERT INTO users (username, email, password, date) VALUES (?, ?, ?, CURRENT_TIMESTAMP())");
+                    mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedPass);
+                    $result = mysqli_stmt_execute($stmt);
                 if($result)
                 {
                     $showalert=true;

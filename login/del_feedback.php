@@ -16,8 +16,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
   $name=$_POST['name'];
   $phone=$_POST['phone'];
-  $sql= "delete from feedback where name ='$name' and  phone= '$phone';";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "DELETE FROM feedback WHERE name = ? AND phone = ?");
+  mysqli_stmt_bind_param($stmt, "ss", $name, $phone);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;

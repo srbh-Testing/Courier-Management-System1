@@ -8,16 +8,14 @@ include 'partials/_dbconnect.php';
   
     $email=$_POST['mail'];
     $pass=$_POST['pass'];
-    
 
-    $exists=false;
-    
-    
-    
-            $sql="select * from users where email='$email' AND password='$pass';";
-            $result = mysqli_query($conn,$sql);
-            $num=mysqli_num_rows($result);
-    if($num==1)
+    $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($result);
+
+    if($user && password_verify($pass, $user['password']))
     {
         $login=true;
         session_start();

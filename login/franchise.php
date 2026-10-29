@@ -17,8 +17,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $bname=$_POST['bname'];
   $bphone=$_POST['bphone'];
   $baddress=$_POST['baddress'];
-  $sql="INSERT INTO `franchise` (`bname`, `bphone`, `baddress`) VALUES ( '$bname', '$bphone', '$baddress');";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "INSERT INTO franchise (bname, bphone, baddress) VALUES (?, ?, ?)");
+  mysqli_stmt_bind_param($stmt, "sss", $bname, $bphone, $baddress);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;

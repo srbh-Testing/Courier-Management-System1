@@ -25,8 +25,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $radd=$_POST['radd'];
   $date=$_POST['date'];
 
-  $sql=" insert into place_courier values('$name','$email',$phone,'$sadd','$radd',curdate());";
-  $result = mysqli_query($conn,$sql);
+  $stmt = mysqli_prepare($conn, "INSERT INTO place_courier (name, email, phone, sadd, radd, date) VALUES (?, ?, ?, ?, ?, CURDATE())");
+  mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $phone, $sadd, $radd);
+  $result = mysqli_stmt_execute($stmt);
   if($result)
   {
     $showalert=true;
