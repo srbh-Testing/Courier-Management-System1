@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   <?php require 'partials/_nav.php' ?>
   <style>
 body {
-  background-image: url('/login/assets/red-delivery car.jpg');
+  background-image: url('/login/assets/red-delivery-car.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
